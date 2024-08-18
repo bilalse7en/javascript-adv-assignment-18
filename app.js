@@ -11,13 +11,25 @@ import {
   // Handle Auth State Changes
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/auth.user
+      // User is signed in
+      Swal.fire({
+        title: 'Welcome!',
+        text: 'You are logged in.',
+        icon: 'success',
+        confirmButtonText: 'Continue'
+      });
       const uid = user.uid;
-      // ...
+    accountButton.style.display = 'inline-flex';
+    signInButton.style.display = 'none';
+      // Additional code to handle the signed-in user...
     } else {
       // User is signed out
-      // ...
+      Swal.fire({
+        title: 'Not Logged In',
+        text: 'Please log in to continue.',
+        icon: 'warning',
+        confirmButtonText: 'Login'
+      });
     }
   });
   
@@ -186,7 +198,7 @@ const validatePassword = () => {
   let password = document.getElementById("password")
   let signupBtn = document.getElementById("signupBtn")
   let signinBtn = document.getElementById("signinBtn")
-
+  let signOutBtn = document.getElementById("signOutBtn")
   // Event Listenersa
   
   username && username.addEventListener("input", validateUsername);
@@ -195,7 +207,47 @@ const validatePassword = () => {
   signupBtn && signupBtn.addEventListener("click", signup);
   signinBtn && signinBtn.addEventListener("click", signIn);
   
+  signOutBtn && signOutBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+
+  Swal.fire({
+    title: 'Are you sure?',
+    text: "Do you really want to sign out?",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, sign out!',
+    cancelButtonText: 'Cancel'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      signOut(auth).then(() => {
+        // Sign-out successful.
+        Swal.fire({
+          title: 'Signed Out',
+          text: 'You have been signed out successfully.',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
+      }).catch((error) => {
+        // An error happened during sign-out.
+        Swal.fire({
+          title: 'Error',
+          text: 'An error occurred while signing out. Please try again.',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
+      });
+    } else {
+      // User canceled the sign-out process.
+      Swal.fire({
+        title: 'Cancelled',
+        text: 'You are still logged in.',
+        icon: 'info',
+        confirmButtonText: 'OK'
+      });
+    }
+  });
 
   document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('myCartDropdownButton1').click();
-  });
+  })
+});
