@@ -3,7 +3,9 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     onAuthStateChanged,
+    signOut
   } from "./firebase.js";
+
   import Swal from "sweetalert2";
   
   // Handle Auth State Changes
@@ -102,63 +104,88 @@ import {
   };
   
   // Validation Functions
-  const validateUsername = () => {
+const showError = (element, message, duration = 300) => {
+    element.classList.add('errorMsg'); // Correctly add class
+    element.textContent = message;
+    element.style.display = 'block';
+    element.style.height = '0px';
+    element.style.overflow = 'hidden';
+    element.style.transition = `height ${duration}ms ease`;
+
+    requestAnimationFrame(() => {
+        element.style.height = element.scrollHeight + 'px';
+    });
+
+    // Reset height to auto after the transition
+    setTimeout(() => {
+        element.style.height = ''; // Clear inline height for natural size
+    }, duration);
+};
+
+// Helper function to hide error message with slide up effect
+const hideError = (element, duration = 300) => {
+    element.style.transition = `height ${duration}ms ease`;
+    element.style.height = element.scrollHeight + 'px';
+
+    requestAnimationFrame(() => {
+        element.style.height = '0px';
+    });
+
+    setTimeout(() => {
+        element.style.display = 'none';
+        element.style.height = ''; // Clear inline height for natural size
+    }, duration);
+};
+
+// Validate Username
+const validateUsername = () => {
     const username = document.getElementById("username").value;
     const usernameError = document.getElementById("username-error");
-  
+
     if (username.length < 3) {
-      usernameError.classList = "block errorMsg";
-      usernameError.classList.remove("hidden");
-      usernameError.textContent = "Username must be at least 3 characters long.";
-      return false;
+        showError(usernameError, "Username must be at least 3 characters long.");
+        return false;
     } else {
-      usernameError.textContent = "";
-      passwordError.classList = "hidden";
-      passwordError.classList.remove("block errorMsg");
-      return true;
+        hideError(usernameError);
+        return true;
     }
-  };
-  
-  const validateEmail = () => {
+};
+
+// Validate Email
+const validateEmail = () => {
     const email = document.getElementById("email").value;
     const emailError = document.getElementById("email-error");
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  
+
     if (!emailPattern.test(email)) {
-      emailError.classList = "block errorMsg";
-      emailError.classList.remove("hidden");
-      emailError.textContent = "Please enter a valid email address.";
-      return false;
+        showError(emailError, "Please enter a valid email address.");
+        return false;
     } else {
-      emailError.textContent = "";
-      passwordError.classList = "hidden";
-      passwordError.classList.remove("block errorMsg");
-      return true;
+        hideError(emailError);
+        return true;
     }
-  };
-  
-  const validatePassword = () => {
+};
+
+// Validate Password
+const validatePassword = () => {
     const password = document.getElementById("password").value;
     const passwordError = document.getElementById("password-error");
-  
+
     if (password.length < 6) {
-      passwordError.classList = "block errorMsg";
-      passwordError.classList.remove("hidden");
-      passwordError.textContent = "Password must be at least 6 characters long.";
-      return false;
+        showError(passwordError, "Password must be at least 6 characters long.");
+        return false;
     } else {
-      passwordError.textContent = "";
-      passwordError.classList = "hidden";
-      passwordError.classList.remove("block errorMsg");
-      return true;
+        hideError(passwordError);
+        return true;
     }
-  };
+};
   
 
   let username = document.getElementById("username")
   let email = document.getElementById("email")
   let password = document.getElementById("password")
   let signupBtn = document.getElementById("signupBtn")
+  let signinBtn = document.getElementById("signinBtn")
 
   // Event Listenersa
   
@@ -166,9 +193,9 @@ import {
   email && email.addEventListener("input", validateEmail);
   password && password.addEventListener("input", validatePassword);
   signupBtn && signupBtn.addEventListener("click", signup);
+  signinBtn && signinBtn.addEventListener("click", signIn);
   
-  
-  document.getElementById("email").addEventListener("input", validateEmail);
-  document.getElementById("password").addEventListener("input", validatePassword);
-  document.getElementById("signinBtn").addEventListener("click", signIn);
-  
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('myCartDropdownButton1').click();
+  });

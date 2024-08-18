@@ -200,6 +200,10 @@ table tr th {
 .errorMsg {
   background: rgb(255, 206, 206);
   color: red;
-  padding: 5px 10px;
-  border-radius: 10px;
+  border-radius: 0px 0px 10px 10px;
+  margin: 0 5px;
+  padding: 5px 10px; /* Default padding for error messages */
+  display: none; /* Initially hidden */
+  height: auto; /* Allow height to be animated */
+  overflow: hidden; /* Hide content during slide-up animation */
 }

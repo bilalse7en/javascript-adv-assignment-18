@@ -1,5 +1,5 @@
  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js";
- import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged   } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
+ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut   } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
 
  const firebaseConfig = {
    apiKey: "AIzaSyB_oWfX9gM1df-oozkT_CYpPY86GQqm08k",
@@ -17,5 +17,6 @@ export {
     auth,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    onAuthStateChanged
+    onAuthStateChanged,
+    signOut
 }
